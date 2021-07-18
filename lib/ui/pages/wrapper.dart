@@ -3,19 +3,20 @@ part of 'pages.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FirebaseUser firebaseUser = Provider.of<FirebaseUser>(context);
+    auth.User firebaseUser = Provider.of<auth.User>(context);
 
     if (firebaseUser == null) {
       if (!(prevPageEvent is GoToSplashPage)) {
         prevPageEvent = GoToSplashPage();
-        context.read<PageBloc>().add(GoToSplashPage());
+        context.bloc<PageBloc>().add(prevPageEvent);
       }
     } else {
       if (!(prevPageEvent is GoToMainPage)) {
-        context.read<UserBloc>().add(LoadUser(firebaseUser.uid));
+        context.bloc<UserBloc>().add(LoadUser(firebaseUser.uid));
+        context.bloc<TicketBloc>().add(GetTickets(firebaseUser.uid));
 
         prevPageEvent = GoToMainPage();
-        context.read<PageBloc>().add(GoToMainPage());
+        context.bloc<PageBloc>().add(prevPageEvent);
       }
     }
 
@@ -26,11 +27,52 @@ class Wrapper extends StatelessWidget {
                 ? SignInPage()
                 : (pageState is OnRegistrationPage)
                     ? SignUpPage(pageState.registrationData)
-                    : (pageState is OnPereferencePage)
+                    : (pageState is OnPreferencePage)
                         ? PreferencePage(pageState.registrationData)
                         : (pageState is OnAccountConfirmationPage)
                             ? AccountConfirmationPage(
                                 pageState.registrationData)
-                            : MainPage());
+                            : (pageState is OnMovieDetailPage)
+                                ? MovieDetailPage(pageState.movie)
+                                : (pageState is OnSelectSchedulePage)
+                                    ? SelectSchedulePage(pageState.movieDetail)
+                                    : (pageState is OnSelectSeatPage)
+                                        ? SelectSeatPage(pageState.ticket)
+                                        : (pageState is OnCheckoutPage)
+                                            ? CheckoutPage(pageState.ticket)
+                                            : (pageState is OnSuccessPage)
+                                                ? SuccessPage(pageState.ticket,
+                                                    pageState.transaction)
+                                                : (pageState
+                                                        is OnTicketDetailPage)
+                                                    ? TicketDetailPage(
+                                                        pageState.ticket)
+                                                    : (pageState
+                                                            is OnProfilePage)
+                                                        ? ProfilePage()
+                                                        : (pageState
+                                                                is OnTopUpPage)
+                                                            ? TopUpPage(
+                                                                pageState
+                                                                    .pageEvent)
+                                                            : (pageState
+                                                                    is OnWalletPage)
+                                                                ? WalletPage(
+                                                                    pageState
+                                                                        .pageEvent)
+                                                                : (pageState
+                                                                        is OnEditProfilePage)
+                                                                    ? EditProfilePage(
+                                                                        pageState
+                                                                            .user)
+                                                                    : (pageState
+                                                                            is OnMainPage)
+                                                                        ? MainPage(
+                                                                            bottomNavBarIndex:
+                                                                                pageState.bottomNavBarIndex,
+                                                                            isExpired:
+                                                                                pageState.isExpired,
+                                                                          )
+                                                                        : Container());
   }
 }

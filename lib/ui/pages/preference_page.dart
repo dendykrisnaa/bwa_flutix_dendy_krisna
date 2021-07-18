@@ -7,7 +7,7 @@ class PreferencePage extends StatefulWidget {
     "Action",
     "Drama",
     "War",
-    "crime"
+    "Crime"
   ];
   final List<String> languages = [
     "Bahasa",
@@ -27,6 +27,7 @@ class PreferencePage extends StatefulWidget {
 class _PreferencePageState extends State<PreferencePage> {
   List<String> selectedGenres = [];
   String selectedLanguage = "English";
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -60,8 +61,8 @@ class _PreferencePageState extends State<PreferencePage> {
                         child: Icon(Icons.arrow_back)),
                   ),
                   Text(
-                    "Select Your Four\nFavourite Genres",
-                    style: blacktextFont.copyWith(fontSize: 20),
+                    "Select Your Four\nFavorite Genres",
+                    style: blackTextFont.copyWith(fontSize: 20),
                   ),
                   SizedBox(
                     height: 16,
@@ -75,8 +76,8 @@ class _PreferencePageState extends State<PreferencePage> {
                     height: 24,
                   ),
                   Text(
-                    "Movie Language\nYou Prefers",
-                    style: blacktextFont.copyWith(fontSize: 20),
+                    "Movie Language\nYou Prefer?",
+                    style: blackTextFont.copyWith(fontSize: 20),
                   ),
                   SizedBox(
                     height: 16,
@@ -91,33 +92,32 @@ class _PreferencePageState extends State<PreferencePage> {
                   ),
                   Center(
                     child: FloatingActionButton(
-                      elevation: 0,
-                      backgroundColor: mainColor,
-                      child: Icon(Icons.arrow_forward),
-                      onPressed: () {
-                        if (selectedGenres.length != 4) {
-                          Flushbar(
-                            duration: Duration(milliseconds: 1500),
-                            flushbarPosition: FlushbarPosition.TOP,
-                            backgroundColor: Color(0xFFFF5C83),
-                            message: "Please select 4 genres",
-                          )..show(context);
-                        } else {
-                          widget.registrationData.selectedGenres =
-                              selectedGenres;
-                          widget.registrationData.selectedLang =
-                              selectedLanguage;
+                        elevation: 0,
+                        backgroundColor: mainColor,
+                        child: Icon(Icons.arrow_forward),
+                        onPressed: () {
+                          if (selectedGenres.length != 4) {
+                            Flushbar(
+                              duration: Duration(milliseconds: 1500),
+                              flushbarPosition: FlushbarPosition.TOP,
+                              backgroundColor: Color(0xFFFF5C83),
+                              message: "Please select 4 genres",
+                            )..show(context);
+                          } else {
+                            widget.registrationData.selectedGenres =
+                                selectedGenres;
+                            widget.registrationData.selectedLang =
+                                selectedLanguage;
 
-                          context.bloc<PageBloc>().add(
-                              GoToAccountConfirmationPage(
-                                  widget.registrationData));
-                        }
-                      },
-                    ),
+                            context.bloc<PageBloc>().add(
+                                GoToAccountConfirmationPage(
+                                    widget.registrationData));
+                          }
+                        }),
                   ),
                   SizedBox(
                     height: 50,
-                  ),
+                  )
                 ],
               )
             ],

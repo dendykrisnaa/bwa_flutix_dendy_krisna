@@ -2,8 +2,6 @@ part of 'theme_bloc.dart';
 
 abstract class ThemeEvent extends Equatable {
   const ThemeEvent();
-
-  ThemeData get themeData => null;
 }
 
 class ChangeTheme extends ThemeEvent {

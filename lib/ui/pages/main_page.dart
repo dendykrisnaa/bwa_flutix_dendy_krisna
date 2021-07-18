@@ -1,6 +1,11 @@
 part of 'pages.dart';
 
 class MainPage extends StatefulWidget {
+  final int bottomNavBarIndex;
+  final bool isExpired;
+
+  MainPage({this.bottomNavBarIndex = 0, this.isExpired = false});
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -13,7 +18,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
 
-    bottomNavBarIndex = 0;
+    bottomNavBarIndex = widget.bottomNavBarIndex;
     pageController = PageController(initialPage: bottomNavBarIndex);
   }
 
@@ -38,12 +43,12 @@ class _MainPageState extends State<MainPage> {
             },
             children: <Widget>[
               MoviePage(),
-              Center(
-                child: Text("My Tickets"),
+              TicketPage(
+                isExpiredTicket: widget.isExpired,
               )
             ],
           ),
-          createCustomBottomNavbar(),
+          createCustomBottomNavBar(),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -58,21 +63,20 @@ class _MainPageState extends State<MainPage> {
                     width: 26,
                     child: Icon(
                       MdiIcons.walletPlus,
-                      color: Colors.black.withOpacity(0.45),
+                      color: Colors.black.withOpacity(0.54),
                     ),
                   ),
                   onPressed: () {
-                    context.read<UserBloc>().add(SignOut());
-                    AuthServices.signOut();
+                    context.bloc<PageBloc>().add(GoToTopUpPage(GoToMainPage()));
                   }),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  Widget createCustomBottomNavbar() => Align(
+  Widget createCustomBottomNavBar() => Align(
         alignment: Alignment.bottomCenter,
         child: ClipPath(
           clipper: BottomNavBarClipper(),
@@ -84,44 +88,41 @@ class _MainPageState extends State<MainPage> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
             child: BottomNavigationBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              selectedItemColor: mainColor,
-              unselectedItemColor: Color(0xFFE5E5E5),
-              currentIndex: bottomNavBarIndex,
-              onTap: (index) {
-                setState(() {
-                  bottomNavBarIndex = index;
-                  pageController.jumpToPage(index);
-                });
-              },
-              items: [
-                BottomNavigationBarItem(
-                  title: Text("New Movies",
-                      style: GoogleFonts.raleway(
-                          fontSize: 13, fontWeight: FontWeight.w600)),
-                  icon: Container(
-                    margin: EdgeInsets.only(bottom: 6),
-                    height: 20,
-                    child: Image.asset((bottomNavBarIndex == 0)
-                        ? "assets/ic_movies.png"
-                        : "assets/ic_movies_gray.png"),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  title: Text("My Tickets",
-                      style: GoogleFonts.raleway(
-                          fontSize: 13, fontWeight: FontWeight.w600)),
-                  icon: Container(
-                    margin: EdgeInsets.only(bottom: 6),
-                    height: 20,
-                    child: Image.asset((bottomNavBarIndex == 1)
-                        ? "assets/ic_tickets.png"
-                        : "assets/ic_tickets_gray.png"),
-                  ),
-                )
-              ],
-            ),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                selectedItemColor: mainColor,
+                unselectedItemColor: Color(0xFFE5E5E5),
+                currentIndex: bottomNavBarIndex,
+                onTap: (index) {
+                  setState(() {
+                    bottomNavBarIndex = index;
+                    pageController.jumpToPage(index);
+                  });
+                },
+                items: [
+                  BottomNavigationBarItem(
+                      title: Text("New Movies",
+                          style: GoogleFonts.raleway(
+                              fontSize: 13, fontWeight: FontWeight.w600)),
+                      icon: Container(
+                        margin: EdgeInsets.only(bottom: 6),
+                        height: 20,
+                        child: Image.asset((bottomNavBarIndex == 0)
+                            ? "assets/ic_movie.png"
+                            : "assets/ic_movie_grey.png"),
+                      )),
+                  BottomNavigationBarItem(
+                      title: Text("My Tickets",
+                          style: GoogleFonts.raleway(
+                              fontSize: 13, fontWeight: FontWeight.w600)),
+                      icon: Container(
+                        margin: EdgeInsets.only(bottom: 6),
+                        height: 20,
+                        child: Image.asset((bottomNavBarIndex == 1)
+                            ? "assets/ic_tickets.png"
+                            : "assets/ic_tickets_grey.png"),
+                      ))
+                ]),
           ),
         ),
       );
@@ -129,7 +130,7 @@ class _MainPageState extends State<MainPage> {
 
 class BottomNavBarClipper extends CustomClipper<Path> {
   @override
-  getClip(Size size) {
+  Path getClip(Size size) {
     Path path = Path();
 
     path.lineTo(size.width / 2 - 28, 0);
@@ -144,5 +145,5 @@ class BottomNavBarClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

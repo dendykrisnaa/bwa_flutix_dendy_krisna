@@ -1,4 +1,4 @@
-part of "pages.dart";
+part of 'pages.dart';
 
 class SignUpPage extends StatefulWidget {
   final RegistrationData registrationData;
@@ -26,12 +26,12 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     context
-        .read<ThemeBloc>()
+        .bloc<ThemeBloc>()
         .add(ChangeTheme(ThemeData().copyWith(primaryColor: accentColor1)));
 
     return WillPopScope(
       onWillPop: () async {
-        context.read<PageBloc>().add(GoToSplashPage());
+        context.bloc<PageBloc>().add(GoToSplashPage());
 
         return;
       },
@@ -52,18 +52,17 @@ class _SignUpPageState extends State<SignUpPage> {
                           alignment: Alignment.centerLeft,
                           child: GestureDetector(
                             onTap: () {
-                              context.read<PageBloc>().add(GoToSplashPage());
+                              context.bloc<PageBloc>().add(GoToSplashPage());
                             },
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                            ),
+                            child: Icon(Icons.arrow_back, color: Colors.black),
                           ),
                         ),
                         Center(
-                          child: Text("Create New\nAccount",
-                              style: blacktextFont.copyWith(fontSize: 20),
-                              textAlign: TextAlign.center),
+                          child: Text(
+                            "Create New\nAccount",
+                            style: blackTextFont.copyWith(fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
                         )
                       ],
                     ),
@@ -80,23 +79,23 @@ class _SignUpPageState extends State<SignUpPage> {
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   image: (widget
-                                              .registrationData.profileimage ==
+                                              .registrationData.profileImage ==
                                           null)
                                       ? AssetImage("assets/user_pic.png")
                                       : FileImage(
-                                          widget.registrationData.profileimage),
+                                          widget.registrationData.profileImage),
                                   fit: BoxFit.cover)),
                         ),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () async {
-                              if (widget.registrationData.profileimage ==
+                              if (widget.registrationData.profileImage ==
                                   null) {
-                                widget.registrationData.profileimage =
+                                widget.registrationData.profileImage =
                                     await getImage();
                               } else {
-                                widget.registrationData.profileimage = null;
+                                widget.registrationData.profileImage = null;
                               }
 
                               setState(() {});
@@ -108,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       image: AssetImage((widget.registrationData
-                                                  .profileimage ==
+                                                  .profileImage ==
                                               null)
                                           ? "assets/btn_add_photo.png"
                                           : "assets/btn_del_photo.png"))),
@@ -211,8 +210,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           widget.registrationData.password =
                               passwordController.text;
 
-                          context.bloc<PageBloc>().add(
-                              GoToPereferencePage(widget.registrationData));
+                          context
+                              .bloc<PageBloc>()
+                              .add(GoToPreferencePage(widget.registrationData));
                         }
                       })
                 ],

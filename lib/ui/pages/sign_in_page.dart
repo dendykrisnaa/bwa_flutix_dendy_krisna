@@ -11,16 +11,17 @@ class _SignInPageState extends State<SignInPage> {
 
   bool isEmailValid = false;
   bool isPasswordValid = false;
-  bool isSigninIn = false;
+  bool isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
     context
-        .read<ThemeBloc>()
+        .bloc<ThemeBloc>()
         .add(ChangeTheme(ThemeData().copyWith(primaryColor: accentColor2)));
+
     return WillPopScope(
       onWillPop: () {
-        context.read<PageBloc>().add(GoToSplashPage());
+        context.bloc<PageBloc>().add(GoToSplashPage());
 
         return;
       },
@@ -44,8 +45,8 @@ class _SignInPageState extends State<SignInPage> {
                   Container(
                     margin: EdgeInsets.only(top: 70, bottom: 40),
                     child: Text(
-                      "Welcome Back, \nExplorer!",
-                      style: blacktextFont.copyWith(fontSize: 20),
+                      "Welcome Back,\nExplorer!",
+                      style: blackTextFont.copyWith(fontSize: 20),
                     ),
                   ),
                   TextField(
@@ -86,13 +87,13 @@ class _SignInPageState extends State<SignInPage> {
                   Row(
                     children: <Widget>[
                       Text(
-                        "Forgot Password?",
-                        style: greytextFont.copyWith(
+                        "Forgot Password? ",
+                        style: greyTextFont.copyWith(
                             fontSize: 12, fontWeight: FontWeight.w400),
                       ),
                       Text(
                         "Get Now",
-                        style: purpletextFont.copyWith(fontSize: 12),
+                        style: purpleTextFont.copyWith(fontSize: 12),
                       )
                     ],
                   ),
@@ -101,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                       width: 50,
                       height: 50,
                       margin: EdgeInsets.only(top: 40, bottom: 30),
-                      child: isSigninIn
+                      child: isSigningIn
                           ? SpinKitFadingCircle(
                               color: mainColor,
                             )
@@ -119,7 +120,7 @@ class _SignInPageState extends State<SignInPage> {
                               onPressed: isEmailValid && isPasswordValid
                                   ? () async {
                                       setState(() {
-                                        isSigninIn = true;
+                                        isSigningIn = true;
                                       });
 
                                       SignInSignUpResult result =
@@ -129,7 +130,7 @@ class _SignInPageState extends State<SignInPage> {
 
                                       if (result.user == null) {
                                         setState(() {
-                                          isSigninIn = false;
+                                          isSigningIn = false;
                                         });
 
                                         Flushbar(
@@ -149,11 +150,11 @@ class _SignInPageState extends State<SignInPage> {
                       Text(
                         "Start Fresh Now? ",
                         style:
-                            greytextFont.copyWith(fontWeight: FontWeight.w400),
+                            greyTextFont.copyWith(fontWeight: FontWeight.w400),
                       ),
                       Text(
                         "Sign Up",
-                        style: purpletextFont,
+                        style: purpleTextFont,
                       )
                     ],
                   )

@@ -11,9 +11,9 @@ class User extends Equatable {
 
   User(this.id, this.email,
       {this.name,
+      this.profilePicture,
       this.balance,
       this.selectedGenres,
-      this.profilePicture,
       this.selectedLanguage});
 
   User copyWith({String name, String profilePicture, int balance}) =>
