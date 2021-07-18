@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "217117216177",
+    "project_id": "bwa-flutix-dendy-krisna",
+    "storage_bucket": "bwa-flutix-dendy-krisna.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217117216177:android:8809c9f0a14fc028ae8190",
+        "android_client_info": {
+          "package_name": "com.example.bwa_flutix_dendy_krisna"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217117216177-2ib08d72biu3v4isme6hoq131l6kb4ng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW5DW46fAaE_kEGkaRLNRt2lm82L0xQUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217117216177-2ib08d72biu3v4isme6hoq131l6kb4ng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
